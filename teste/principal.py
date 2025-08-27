@@ -1,26 +1,29 @@
 import tkinter as tk
 from tkinter import messagebox
-from banco import conectar, inserir, listar, excluir, editar
+from banco import *
 
 conectar()
 
 def abrir_principal(janela_login):
     """Cria a janela principal; recebe a referência do Tk oculto."""
-    win = tk.Toplevel()
-    win.title("Cadastro de Alunos")
-    win.geometry("400x450")
+    janela = tk.Toplevel()
+    janela.title("Sistema consultorio")
+    # janela.geometry("400x450")
+    container = tk.Frame()
+    container.pack(fill="both", expand=True)
+
 
     # widgets -------------
-    tk.Label(win, text="Nome:").pack()
-    ent_nome = tk.Entry(win); ent_nome.pack()
+    tk.Label(janela, text="Nome:").pack()
+    ent_nome = tk.Entry(janela); ent_nome.pack()
 
-    tk.Label(win, text="Idade:").pack()
-    ent_idade = tk.Entry(win); ent_idade.pack()
+    tk.Label(janela, text="Idade:").pack()
+    ent_idade = tk.Entry(janela); ent_idade.pack()
 
-    tk.Label(win, text="Curso:").pack()
-    ent_curso = tk.Entry(win); ent_curso.pack()
+    tk.Label(janela, text="Curso:").pack()
+    ent_curso = tk.Entry(janela); ent_curso.pack()
 
-    lista = tk.Listbox(win, width=50); lista.pack(pady=10)
+    lista = tk.Listbox(janela, width=45); lista.pack(pady=11)
 
     # funções internas -------------
     def listar_alunos():
@@ -66,14 +69,14 @@ def abrir_principal(janela_login):
         ent_curso.delete(0, tk.END)
 
     # botões -------------
-    tk.Button(win, text="Salvar", command=salvar).pack(pady=4)
-    tk.Button(win, text="Editar", command=editar_aluno).pack(pady=4)
-    tk.Button(win, text="Excluir", command=excluir_aluno).pack(pady=4)
+    tk.Button(janela, text="Salvar", command=salvar).pack(pady=4)
+    tk.Button(janela, text="Editar", command=editar_aluno).pack(pady=4)
+    tk.Button(janela, text="Excluir", command=excluir_aluno).pack(pady=4)
 
     listar_alunos()
 
     # quando fechar, mostra de novo o login/cadastro
     def ao_fechar():
         janela_login.deiconify()
-        win.destroy()
-    win.protocol("WM_DELETE_WINDOW", ao_fechar)
+        janela.destroy()
+    janela.protocol("WM_DELETE_WINDOW", ao_fechar)

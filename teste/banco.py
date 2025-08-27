@@ -9,6 +9,15 @@ def conectar():
                  (id INTEGER PRIMARY KEY AUTOINCREMENT,
                   nome TEXT, idade INTEGER, curso TEXT,
                   cep TEXT, email TEXT UNIQUE, senha TEXT)""")
+
+    c.execute("""CREATE TABLE IF NOT EXISTS medicos
+                 (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                  nome TEXT,
+                  idade INTEGER,
+                  funcao TEXT,
+                  nome_usuario TEXT UNIQUE,  -- UNIQUE para evitar duplicatas de usuário
+                  senha TEXT)""")
+
     conn.commit()
 
 def inserir(nome, idade, curso, cep, email, senha):
@@ -21,9 +30,19 @@ def inserir(nome, idade, curso, cep, email, senha):
     except sqlite3.IntegrityError:
         return False
 
+def inserir_medico(nome, idade, funcao, nome_usuario, senha):
+    try:
+        c = conn.cursor()
+        c.execute("INSERT INTO medicos (nome,idade,funcao,nome_usuario,senha) VALUES (?,?,?,?,?)",
+                  (nome, idade, funcao, nome_usuario, senha))
+        conn.commit()
+        return True
+    except sqlite3.IntegrityError:
+        return False
+
 def verificar_login(email, senha):
     c = conn.cursor()
-    c.execute("SELECT * FROM alunos WHERE email=? AND senha=?", (email, senha))
+    c.execute("SELECT * FROM medicos WHERE nome_usuario=? AND senha=?", (email, senha))
     return c.fetchone()
 
 def listar():

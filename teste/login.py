@@ -8,9 +8,9 @@ class LoginFrame(tk.Frame):
         super().__init__(master)
         self.ctrl = ctrl
 
-        tk.Label(self, text="E-mail:").grid(row=0, column=0, padx=10, pady=10)
-        self.email = tk.Entry(self)
-        self.email.grid(row=0, column=1, padx=10, pady=10)
+        tk.Label(self, text="Usuario:").grid(row=0, column=0, padx=10, pady=10)
+        self.usuario = tk.Entry(self)
+        self.usuario.grid(row=0, column=1, padx=10, pady=10)
 
         tk.Label(self, text="Senha:").grid(row=1, column=0, padx=10, pady=10)
         self.senha = tk.Entry(self, show="*")
@@ -23,12 +23,12 @@ class LoginFrame(tk.Frame):
             .grid(row=3, column=0, columnspan=2)
 
     def validar(self):
-        email = self.email.get()
+        usuario = self.usuario.get()
         senha = self.senha.get()
-        if not email or not senha:
+        if not usuario or not senha:
             messagebox.showwarning("Atenção", "Preencha e-mail e senha!")
             return
-        if banco.verificar_login(email, senha):
+        if banco.verificar_login(usuario, senha):
             messagebox.showinfo("Sucesso", "Login realizado!")
             self.ctrl.withdraw()          # esconde a janela de login/cadastro
             abrir_principal(self.ctrl)    # cria Toplevel e passa referência
